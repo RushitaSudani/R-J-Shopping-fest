@@ -27,4 +27,9 @@ public class UserServiceIMPL implements UserService {
         }
         throw new UserException("User Not Found "+ userId);
     }
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
 }

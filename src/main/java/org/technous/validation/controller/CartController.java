@@ -13,6 +13,8 @@ import org.technous.validation.request.AddItemRequest;
 import org.technous.validation.service.CartService;
 import org.technous.validation.service.UserService;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api")
@@ -30,7 +32,8 @@ public class CartController {
         return new ResponseEntity<>(cart, HttpStatus.OK);
     }
     @PostMapping("/cart/add/{productId}/{userId}")
-    public String addItemToCart(@RequestBody AddItemRequest req, @PathVariable("productId") Long productId ,
+    public String addItemToCart(@RequestBody AddItemRequest req,
+                                @PathVariable("productId") Long productId ,
                                 @PathVariable("userId")Long userId) {
         cartService.addCartItem(userId, req,productId);
         return "Item Addedd to Cart";
@@ -46,5 +49,11 @@ public class CartController {
     public ResponseEntity<Cart> findByCart(@Param("cartId") Long cartId) throws CartItemException {
         Cart cart = cartService.findByCartId(cartId);
         return new ResponseEntity<>(cart, HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllCart")
+    public ResponseEntity<List<Cart>> findAll(){
+        List<Cart> carts = cartService.getAllCart();
+        return new ResponseEntity<>(carts, HttpStatus.OK);
     }
 }

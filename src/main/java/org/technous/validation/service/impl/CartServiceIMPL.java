@@ -13,6 +13,7 @@ import org.technous.validation.service.CartItemService;
 import org.technous.validation.service.CartService;
 import org.technous.validation.service.ProductService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -40,6 +41,25 @@ public class CartServiceIMPL implements CartService {
             cartItem.setCart(cart);
             cartItem.setQuantity(req.getQuantity());
             cartItem.setUserId(userId);
+            int price = req.getQuantity() * product.getDiscountedPrice();
+            cartItem.setPrice(price);
+            cartItem.setSize(req.getSize());
+            CartItem createCartItem =cartItemService.createCartItem(cartItem);
+            cart.getCartItems().add(createCartItem);
+        }
+        return "Item Addedd to Cart";
+    }
+
+    public String addCartItemm(Long userId, AddItemRequest req,Long productId) {
+        Cart cart =cartRepository.findByUserId(userId);
+        Product product = productService.findByProductId(productId);
+        CartItem isPresent = cartItemService.isCartItemExits(cart,product, req.getSize(),userId);
+        if(isPresent==null){
+            CartItem cartItem = new CartItem();
+            cartItem.setProduct(product);
+            cartItem.setCart(cart);
+            cartItem.setQuantity(req.getQuantity());
+            //  cartItem.setUserId(userId);
             int price =req.getQuantity() * product.getDiscountedPrice();
             cartItem.setPrice(price);
             cartItem.setSize(req.getSize());
@@ -79,5 +99,12 @@ public class CartServiceIMPL implements CartService {
         {
             throw new CartItemException("Cart not here...");
         }
+    }
+
+    @Override
+    public List<Cart> getAllCart() {
+
+        List<Cart> carts = cartRepository.findAll();
+        return carts;
     }
 }

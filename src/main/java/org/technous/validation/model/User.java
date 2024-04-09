@@ -23,22 +23,23 @@ public class User {
     private String lastName;
     private String password;
     private String email;
-    private String role;
-    private String mobile;
+   // private String role;
+   // private String mobile;
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Address> addessList=new ArrayList<Address>();
+
     //@Embedded
-    @ElementCollection
-    @CollectionTable(name = "paymentinformation",joinColumns = @JoinColumn(name = "userId"))
-    private List<PaymentInformation> paymentInformations = new ArrayList<>();
+//    @ElementCollection
+//    @CollectionTable(name = "paymentinformation",joinColumns = @JoinColumn(name = "userId"))
+//    private List<PaymentInformation> paymentInformations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Rating> ratings = new ArrayList<>();
+//    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+//    @JsonIgnore
+//    private List<Rating> ratings = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+//    private List<Review> review = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<Review> review = new ArrayList<>();
-
-    private LocalDateTime createdAt;
+   // private LocalDateTime createdAt;
 
 }
