@@ -2,8 +2,7 @@ package org.technous.validation.request;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.technous.validation.model.Category;
-import org.technous.validation.model.Size;
+import org.technous.validation.model.Sizee;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,13 +18,13 @@ public class ProductRequest {
     private int quantity;
     private String brand;
     private String color;
-    private Set<Size> size = new HashSet<>();
+    private Set<Sizee> sizee = new HashSet<>();
     private String imageUrl;
     private String subImage1;
     private String subImage2;
     private String subImage3;
-    private Category TopLevelCategory;
-    private Category secoundLevelCategory;
-    private Category ThirdLevelCategory;
+//    private String TopLevelCategory;
+//    private String secoundLevelCategory;
+//    private String ThirdLevelCategory;
 
 }

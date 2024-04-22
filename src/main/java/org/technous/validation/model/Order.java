@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.technous.validation.audit.AudiTable;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "orders")
-public class Order {
+public class Order extends AudiTable<String> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -19,6 +19,7 @@ public class CartItem {
     @JsonIgnore
     @ManyToOne
     private Cart cart;
+
     @ManyToOne
     private Product product;
     private String size;
@@ -26,6 +27,5 @@ public class CartItem {
     private Integer price;
     private Integer discountedPrice;
     private Long userId;
-
 
 }

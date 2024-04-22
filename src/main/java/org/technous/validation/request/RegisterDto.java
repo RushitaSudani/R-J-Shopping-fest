@@ -9,10 +9,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+public class RegisterDto {
 
-public class AddItemRequest {
-    private Long productId;
-    private String size;
-    private int quantity;
-    private Integer price;
+    private String firstName;
+    private String lastName;
+    private String password;
+    private String email;
 }

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.technous.validation.model.Product;
-import org.technous.validation.repository.CategoryRepositoty;
+import org.technous.validation.repository.CategoryRepository;
 import org.technous.validation.repository.ProductRepository;
 import org.technous.validation.request.ProductRequest;
 import org.technous.validation.service.ProductService;
@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@CrossOrigin("192.168.29.236")
+@CrossOrigin("*")
 public class ProductServiceIMPL implements ProductService {
     @Autowired
     private ProductRepository productRepository;
 
     @Autowired
-    private CategoryRepositoty categoryRepositoty;
+    private CategoryRepository categoryRepository;
 
     public Product addProduct(ProductRequest product) {
         Product product1 = new Product();
@@ -34,11 +34,11 @@ public class ProductServiceIMPL implements ProductService {
         product1.setDiscountedPersent(product.getDiscountPersent());
         product1.setPrice(product.getPrice());
         product1.setImageUrl(product.getImageUrl());
-        product1.setSizes(product.getSize());
+        product1.setSizes(product.getSizee());
         product1.setSubImage1(product.getSubImage1());
         product1.setSubImage2(product.getSubImage2());
         product1.setSubImage3(product.getSubImage3());
-        product1.setCategory(product.getTopLevelCategory());
+        //product1.setCategory(product.getTopLevelCategory());
         return productRepository.save(product1);
     }
 
@@ -92,9 +92,11 @@ public class ProductServiceIMPL implements ProductService {
         }
         if (stock != null) {
             if (stock.equals("in_stock")) {
-                products = products.stream().filter(p -> p.getQuantity() > 0).collect(Collectors.toList());
+                products = products.stream().filter(p -> p.getQuantity() > 0)
+                        .collect(Collectors.toList());
             } else if (stock.equals("out_of_stock")) {
-                products = products.stream().filter(p -> p.getQuantity() < 1).collect(Collectors.toList());
+                products = products.stream().filter(p -> p.getQuantity() < 1)
+                        .collect(Collectors.toList());
             }
         }
         return products;

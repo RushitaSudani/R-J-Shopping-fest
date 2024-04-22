@@ -33,5 +33,6 @@ public class OrderItem {
     private Integer discountedPrice;
     private Long userId;
     private LocalDateTime deliveryDate;
-
+    private String imageUrl;
+    private String title;
 }

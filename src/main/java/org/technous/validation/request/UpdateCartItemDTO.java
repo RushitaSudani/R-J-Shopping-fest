@@ -1,17 +1,16 @@
-package org.technous.validation.model;
+package org.technous.validation.request;
 
-import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Embeddable
-public class Size {
-    private String name;
+public class UpdateCartItemDTO {
+
+    private int cartItemId;
     private int quantity;
 }

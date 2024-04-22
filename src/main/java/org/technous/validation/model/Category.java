@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Setter
 @Getter
 @AllArgsConstructor
@@ -14,14 +17,13 @@ import lombok.Setter;
 @Table(name = "category")
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-//    @NotNull
-//    @Size(max = 50)
-    public String name;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long categoryid;
+    @Column(name = "categorytitle")
+    private String categorytitle;
+    @Column(name = "categorydescription")
+    private String categorydescription;
 
-    @ManyToOne()
-    @JoinColumn(name = "parent_category_id")
-    private Category perentCategory;
-    private int level;
+    @OneToMany(mappedBy = "categories",cascade = CascadeType.ALL)
+    private List<Product> list=new ArrayList<>();
 }

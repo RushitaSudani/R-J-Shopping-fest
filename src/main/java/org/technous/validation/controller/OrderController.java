@@ -1,9 +1,8 @@
 package org.technous.validation.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.hibernate.internal.build.AllowNonPortable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Description;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +11,9 @@ import org.technous.validation.exception.UserException;
 import org.technous.validation.model.Address;
 import org.technous.validation.model.Order;
 import org.technous.validation.model.User;
+import org.technous.validation.service.Iuserservice;
 import org.technous.validation.service.OrderService;
-import org.technous.validation.service.UserService;
+
 import java.util.List;
 
 @RestController
@@ -24,10 +24,16 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
     @Autowired
-    private UserService userService;
+    private Iuserservice userService;
 
-    @PostMapping("/orders/{userId}")
-    public ResponseEntity<Order> createOrder(@PathVariable("userId") Long userId,
+    @GetMapping("/")
+    public ResponseEntity<List<Order>> getAllOrdersHandler(){
+        List<Order> orders = orderService.getAllOrders();
+        return new ResponseEntity<List<Order>>(orders, HttpStatus.OK);
+    }
+
+    @PostMapping("/orders")
+    public ResponseEntity<Order> createOrder(@Param("userId") Long userId,
                                              @RequestBody Address shippedaddress) throws UserException {
         User user = userService.findUserById(userId);
         Order order = orderService.createOrder(user,shippedaddress);

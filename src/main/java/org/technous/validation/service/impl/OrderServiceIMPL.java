@@ -52,8 +52,8 @@ public class OrderServiceIMPL implements OrderService {
             orderItem.setSize(cartItem.getSize());
             orderItem.setUserId(cartItem.getUserId());
             orderItem.setDiscountedPrice(cartItem.getDiscountedPrice());
-            OrderItem createdOrderItem = orderItemRepository.save(orderItem);
 
+            OrderItem createdOrderItem = orderItemRepository.save(orderItem);
             orderItems.add(createdOrderItem);
         }
         Order createOrder = new Order();

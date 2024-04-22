@@ -1,38 +1,78 @@
 package org.technous.validation.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.technous.validation.dto.LoginRequest;
+import org.technous.validation.dto.LoginResponseDto;
+import org.technous.validation.dto.RegisterDto;
 import org.technous.validation.model.User;
-import org.technous.validation.service.UserService;
+import org.technous.validation.service.Iuserservice;
+import org.technous.validation.service.impl.AuthService;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/auth")
 public class UserController {
 
+//    @PostMapping("/register")
+//    public ResponseEntity<LoginResponseDto> registerUser(@RequestBody RegisterDto registerDto) {
+//        return ResponseEntity.ok(userService.registerUser(registerDto));
+//    }
+//    @PostMapping("/login")
+//    public ResponseEntity<LoginResponseDto> loginUser(@RequestBody LoginRequest loginRequest) {
+//        LoginResponseDto loginResponseDto = authService.authenticateUser(loginRequest);
+//        return ResponseEntity.ok(loginResponseDto);
+//    }
+
     @Autowired
-    private UserService userService;
+    private Iuserservice userService;
+    private final AuthService authService;
+
+    @Autowired
+    public UserController(AuthService authService) {
+        this.authService = authService;
+    }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
-        User existingUser = userService.findByEmail(user.getEmail());
-        if (existingUser != null) {
-            return ResponseEntity.badRequest().body("Username already exists");
-        }
-        userService.saveUser(existingUser);
-        return ResponseEntity.ok("User registered successfully");
+    public ResponseEntity<LoginResponseDto> registerUser(@RequestBody RegisterDto registerDto) {
+        return ResponseEntity.ok(userService.registerUser(registerDto));
     }
+
+
+//    @PostMapping("/login")
+//    public ResponseEntity<LoginResponseDto> loginUserr(@RequestBody LoginRequest loginRequest) {
+//        LoginResponseDto loginResponseDto = authService.authenticateUser(loginRequest);
+//
+//        if (loginResponseDto != null) {
+//            return ResponseEntity.ok(loginResponseDto);
+//        } else {
+//
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//        }
+//    }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody User user) {
-        User existingUser = userService.findByEmail(user.getEmail());
-        if (existingUser == null || !existingUser.getPassword().equals(user.getPassword())) {
-            return ResponseEntity.badRequest().body("Invalid username or password");
-        }
-        return ResponseEntity.ok("Login successful");
-    }
+    public ResponseEntity<LoginResponseDto> loginUser(@RequestBody LoginRequest loginRequest) {
+        // Authenticate user
+        LoginResponseDto loginResponseDto = authService.authenticateUser(loginRequest);
 
+        if (loginResponseDto != null) {
+            // Get userId from loginResponseDto
+            Long userId = loginResponseDto.getUserId();
+
+            LoginResponseDto responseDto = new LoginResponseDto();
+            responseDto.setId(loginResponseDto.getId());
+            responseDto.setUsername(loginResponseDto.getUsername());
+            responseDto.setEmail(loginResponseDto.getEmail());
+            responseDto.setRole(loginResponseDto.getRole());
+          //  responseDto.setUserId(userId);
+            responseDto.setUserId(loginResponseDto.getId());
+            return ResponseEntity.ok(responseDto);
+        } else {
+            //return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Credential");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
 }

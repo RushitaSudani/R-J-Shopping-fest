@@ -9,7 +9,7 @@ import org.technous.validation.model.User;
 import org.technous.validation.repository.CartItemRepository;
 import org.technous.validation.repository.CartRepository;
 import org.technous.validation.service.CartItemService;
-import org.technous.validation.service.UserService;
+
 import java.util.Optional;
 import java.util.Set;
 

@@ -23,6 +23,7 @@ public class ProductController {
         Product mProduct = productService.addProduct(product);
         return new ResponseEntity<>(mProduct, HttpStatus.OK);
     }
+
     @GetMapping("/products/getAllProducts")
     public ResponseEntity<List<Product>> getAllProducts(){
       List<Product> products =  productService.getAllProduct();
@@ -42,7 +43,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/admin/products/{productId}/delete")
-    public ResponseEntity<ApiResponse> delete(@PathVariable("productId")Long productId){
+    public ResponseEntity<ApiResponse> deleteProduct(@PathVariable("productId")Long productId){
         productService.deleteProduct(productId);
         ApiResponse res = new ApiResponse();
         res.setMessage("product deleted");
@@ -60,8 +61,9 @@ public class ProductController {
             @RequestParam(required = false) String sort,
             @RequestParam(required = false) String stock
     ) {
-        List<Product> products = productService.getAllProductt(colors, sizes, minPrice, maxPrice, minDiscount, sort, stock);
-        return new ResponseEntity<>(products, HttpStatus.OK);
+        List<Product> products = productService.getAllProductt(colors, sizes, minPrice,
+                maxPrice, minDiscount, sort, stock);
+        return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
     }
 }
 

@@ -8,8 +8,9 @@ import org.technous.validation.exception.UserException;
 import org.technous.validation.model.Rating;
 import org.technous.validation.model.User;
 import org.technous.validation.request.RatingRequest;
+import org.technous.validation.service.Iuserservice;
 import org.technous.validation.service.RatingService;
-import org.technous.validation.service.UserService;
+
 import java.util.List;
 
 @RestController
@@ -19,9 +20,7 @@ public class RatingController {
     @Autowired
     private RatingService ratingService;
     @Autowired
-    private UserService userService;
-
-
+    private Iuserservice userService;
     @PostMapping("/saveRate/{userId}")
     public ResponseEntity<Rating> saveRate(@RequestBody RatingRequest ratingRequest, @PathVariable("userId") Long userId)
             throws ProductException, UserException {

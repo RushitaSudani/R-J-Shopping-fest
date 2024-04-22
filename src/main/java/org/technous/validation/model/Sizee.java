@@ -1,18 +1,17 @@
-package org.technous.validation.request;
+package org.technous.validation.model;
 
+import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-
-public class AddItemRequest {
-    private Long productId;
-    private String size;
+@Embeddable
+public class Sizee {
+    private String name;
     private int quantity;
-    private Integer price;
 }

@@ -10,8 +10,9 @@ import org.technous.validation.exception.UserException;
 import org.technous.validation.model.Cart;
 import org.technous.validation.model.User;
 import org.technous.validation.request.AddItemRequest;
+import org.technous.validation.request.UpdateCartItemDTO;
 import org.technous.validation.service.CartService;
-import org.technous.validation.service.UserService;
+import org.technous.validation.service.impl.UserService;
 
 import java.util.List;
 
@@ -31,22 +32,23 @@ public class CartController {
         Cart cart = cartService.createCart(user);
         return new ResponseEntity<>(cart, HttpStatus.OK);
     }
-    @PostMapping("/cart/add/{productId}/{userId}")
+    @PutMapping("/cart/add/{productId}")
     public String addItemToCart(@RequestBody AddItemRequest req,
-                                @PathVariable("productId") Long productId ,
-                                @PathVariable("userId")Long userId) {
-        cartService.addCartItem(userId, req,productId);
-        return "Item Addedd to Cart";
+                                @Param("userId") Long userId,
+                                @PathVariable("productId") Long productId) {
+        cartService.addCartItem(userId, req ,productId);
+        return "Item Addedd to Cart"+userId;
     }
 
     @GetMapping("/findByUserId/{userId}")
-    public ResponseEntity<Cart> findCartByUserId(@Param("userId") Long userId) {
+   // @Operation(description = "find by user id")
+    public ResponseEntity<Cart> findCartByUserId(@PathVariable("userId") Long userId) {
         Cart cart = cartService.findUserCart(userId);
         return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 
     @GetMapping("/findByCartId/{cartId}")
-    public ResponseEntity<Cart> findByCart(@Param("cartId") Long cartId) throws CartItemException {
+    public ResponseEntity<Cart> findByCart(@PathVariable("cartId") Long cartId) throws CartItemException {
         Cart cart = cartService.findByCartId(cartId);
         return new ResponseEntity<>(cart, HttpStatus.OK);
     }
@@ -55,5 +57,36 @@ public class CartController {
     public ResponseEntity<List<Cart>> findAll(){
         List<Cart> carts = cartService.getAllCart();
         return new ResponseEntity<>(carts, HttpStatus.OK);
+    }
+//    @PutMapping("/{cartId}/updateCartItem")
+//    public ResponseEntity<String> updateCartItem(@PathVariable("cartId") Long cartId,
+//                                                 @RequestBody UpdateCartItemDTO updateDTO,
+//                                                 @Param("userId") Long userId) {
+//        try {
+//            cartService.updateCart(updateDTO,userId);
+//            return ResponseEntity.ok("Cart item updated successfully");
+//        } catch (CartItemException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+//        }
+//    }
+    @PutMapping("/updateCartItem")
+    public ResponseEntity<String> updateCartItem(
+                                                 @RequestBody UpdateCartItemDTO updateDTO,
+                                                 @Param("userId") Long userId) {
+        try {
+            cartService.updateCart(updateDTO,userId);
+            return ResponseEntity.ok("Cart item updated successfully");
+        } catch (CartItemException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+    @DeleteMapping("/{cartId}")
+    public ResponseEntity<String> removeCart(@PathVariable("cartId") Long cartId) {
+        try {
+            cartService.removeCart(cartId);
+            return ResponseEntity.ok("Cart removed successfully");
+        } catch (CartItemException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }

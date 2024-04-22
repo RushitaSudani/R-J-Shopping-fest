@@ -9,8 +9,8 @@ import org.technous.validation.exception.UserException;
 import org.technous.validation.model.Review;
 import org.technous.validation.model.User;
 import org.technous.validation.request.ReviewRequest;
+import org.technous.validation.service.Iuserservice;
 import org.technous.validation.service.ReviewService;
-import org.technous.validation.service.UserService;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class ReviewController {
     @Autowired
     public ReviewService reviewService;
     @Autowired
-    private UserService userService;
+    private Iuserservice userService;
 
 
     @PostMapping("/saveReview/{userId}")
